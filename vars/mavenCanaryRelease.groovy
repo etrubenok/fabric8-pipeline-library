@@ -9,7 +9,7 @@ def call(body) {
     def flow = new io.fabric8.Fabric8Commands()
 
     sh "git checkout -b ${env.JOB_NAME}-${config.version}"
-    sh "mvn org.codehaus.mojo:versions-maven-plugin:2.2:set -U -DnewVersion=${config.version}"
+    sh "mvn org.codehaus.mojo:versions-maven-plugin:2.2:set -U -DautoVersionSubmodules=true -DnewVersion=${config.version}"
     sh "mvn clean -e -U deploy"
 
     def s2iMode = flow.isOpenShiftS2I()
