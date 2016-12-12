@@ -10,7 +10,7 @@ def call(body) {
 
     sh "git checkout -b ${env.JOB_NAME}-${config.version}"
     sh "mvn org.codehaus.mojo:versions-maven-plugin:2.2:set -U -DnewVersion=${config.version} -DartifactId=* -DgroupId=* -DoldVersion=*"
-    sh "mvn clean -e -U deploy fabric8:deploy"
+    sh "mvn clean -e -U deploy"
 
     def s2iMode = flow.isOpenShiftS2I()
     echo "s2i mode: ${s2iMode}"
@@ -42,5 +42,9 @@ def call(body) {
       }
     } else {
       echo 'no content-repository service so not deploying the maven site report'
+    }
+
+    if (${config.deployToCluster}) {
+     sh "mvn -e -U fabric8:deploy"
     }
   }
