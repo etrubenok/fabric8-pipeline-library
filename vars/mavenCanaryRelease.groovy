@@ -8,6 +8,8 @@ def call(body) {
 
     def flow = new io.fabric8.Fabric8Commands()
 
+    sh "pip install awscli --ignore-installed six"
+    sh "$(aws ecr get-login --registry-ids ${config.ecrAccountId}"
     sh "git checkout -b ${env.JOB_NAME}-${config.version}"
     sh "mvn org.codehaus.mojo:versions-maven-plugin:2.2:set -U -DnewVersion=${config.version} -DartifactId=* -DgroupId=* -DoldVersion=*"
     sh "mvn clean -e -U deploy"
