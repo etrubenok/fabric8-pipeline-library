@@ -44,7 +44,7 @@ def call(body) {
       echo 'no content-repository service so not deploying the maven site report'
     }
 
-    if (${config.deployToCluster}) {
+    if (config.deployToCluster) {
      sh "mvn -e -U fabric8:deploy"
     }
   }
